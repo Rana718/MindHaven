@@ -1,37 +1,53 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { Slot, SplashScreen, Stack } from "expo-router";
+import { useFonts } from "expo-font";
+import { useEffect, useState } from "react";
+import TimerProvider from "@/context/TImerContext";
+import { View, Image } from "react-native";
+import AppGradient from "@/components/AppGradient";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+    const [fontsLoaded, error] = useFonts({
+        "Roboto-Mono": require("../assets/fonts/RobotoMono-Regular.ttf"),
+    });
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+    const [isSplashScreenVisible, setSplashScreenVisible] = useState(true);
+
+    useEffect(()=>{
+        if(error) throw error;
+        if(fontsLoaded) SplashScreen.hideAsync();
+
+        const timer = setTimeout(() => {
+            setSplashScreenVisible(false);
+        },2000);
+
+        return () => clearTimeout(timer);
+    },[fontsLoaded, error]);
+
+    if (!fontsLoaded) return null;
+    if (!fontsLoaded && !error) return null;
+
+    if(isSplashScreenVisible){
+        return (
+            <View className="justify-center items-center"> 
+                    <Image
+                        source={require('@/assets/app_background.jpg')}
+                        resizeMode="contain"
+                    />
+            </View>
+        );
     }
-  }, [loaded]);
 
-  if (!loaded) {
-    return null;
-  }
-
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
-  );
+    return (
+        <TimerProvider>
+            <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false}}/>
+                <Stack.Screen name="index" options={{ headerShown: false}}/>
+                <Stack.Screen name="meditate/[id]" options={{ headerShown: false}}/>
+                <Stack.Screen name="(model)/adjust-timer" options={{ headerShown: false, presentation: "modal" }}/>
+            </Stack>
+        </TimerProvider>
+    )
 }
