@@ -10,11 +10,11 @@ interface GuideAffirmationsGalleryProps {
 
 const GuideAffirmationsGallery = ({ title, previews }: GuideAffirmationsGalleryProps) => {
     return (
-        <View className="my-5">
+        <View className="my-1">
             <View>
                 <Text className="text-white font-bold text-xl">{title}</Text>
             </View>
-            <View className="space-y-2">
+            <View className="space-y-3 mt-3">
                 <FlatList
                     data={previews}
                     showsHorizontalScrollIndicator={false}
@@ -22,7 +22,7 @@ const GuideAffirmationsGallery = ({ title, previews }: GuideAffirmationsGalleryP
                     renderItem={({ item }) => (
                         <Link href={`/affirmations/${item.id}`} asChild>
                             <Pressable>
-                                <View className="h-36 w-32 rounded-md mr-4">
+                                <View className="h-36 w-36 rounded-md mr-4">
                                     <Image 
                                         source={item.image}
                                         resizeMode="cover"
