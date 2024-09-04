@@ -32,7 +32,7 @@ const adjust_timer = () => {
                     <Ionicons name="arrow-back-circle-outline" size={48} color="white" />
                 </Pressable>
                 <View className="justify-center">
-                    <Text className="text-center font-bold text-3xl text-white mt-10 pb-5">
+                    <Text className="text-center font-bold text-3xl text-white mt-16 pb-5">
                         Adjust your meditation duration
                     </Text>
                     <ScrollView>
