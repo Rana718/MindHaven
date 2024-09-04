@@ -1,0 +1,17 @@
+{
+  "cli": {
+    "version": ">= 11.0.3"
+  },
+  "build": {
+    "release": {
+      "android": {
+        "buildType": "apk" 
+      }
+    },
+    "development": {
+      "android": {
+        "buildType": "apk"
+      }
+    }
+  }
+}
